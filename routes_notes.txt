@@ -1,0 +1,93 @@
+Create Read Update Destroy
+
+REpresentational State Transfer
+
+
+GET (READ)
+
+/books  # i expect to receive info about all the books
+
+/books/:id # i expect to receive info about a book with a particular id specified in the url
+
+/books/:id/edit # i expect to receive some data that helps me with editing a book (form) (front-end only)
+
+/books/new # i expect to receive some data that helps me create a new book (form) (front-end only)
+
+
+POST (CREATE)
+
+/books # I am sending data to the server, expecting a new book to be created and saved there. usually expecting a response back, showing the thing that was created
+      # more data is sent in the body of the request, to help create the book  (back-end only)
+PATCH (UPDATE)
+
+/books/:id # I'm sending data to the server, expecting a book to be updated with new info, usually expecting a response with the newly updated record
+        #data for updating is in the body (back-end only)
+
+DELETE (DESTROY)
+
+/books/:id # I'm expecting a book with that id to be deleted from the database (back-end only)
+
+
+
+
+
+
+GET (Read) /users 
+ActiveRecord method → User.all
+
+GET (Read) /users/:id 
+ActiveRecord method → User.find(:id)
+
+GET (Read) /users/:id/edit
+ActiveRecord method → User.find(:id)
+
+GET (Read) /users/new
+ActiveRecord method → User.all ??????
+
+POST (Create) /users
+(can create a new session with that user id to log them in)
+ActiveRecord method → User.create()
+
+PATCH(Update) /users/:id
+ActiveRecord method → user = User.find(:id) → user.update
+
+DELETE(destroy) /users/:id
+ActiveRecord method → user = User.find(:id) → user.destroy
+
+
+
+AUTHENTICATION
+
+front-end route to be able to log in
+  /login (get) front-end only - form to fill out username and password
+
+
+back-end route to submit the login form to
+  /sessions (post)  back-end only - username and password sent in the body (encrypted over https). the backend confirms the password is correct, and creates a session cookie and sends that back
+
+any request requiring user auth on the backend requires some data to be sent to authenticate
+
+front-end needs a way to initiate logging out (button somewhere on the frontend)
+
+back-end needs a way to actually cause the user to be logged out (backend route - delete request to /sessions)
+
+
+
+/users/:id/posts (get)
+user = User.find(params[:id])
+user.posts
+
+/authors/:id/books (post)
+
+create a new book that belongs to a particular author
+
+author = Author.find(params[:id])
+
+author.books.create(params)
+
+/books (post)
+
+Book.create(author_id: params[:author_id])
+
+/posts (get)
+Post.all
